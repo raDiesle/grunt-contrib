@@ -34,7 +34,7 @@ module.exports = function(grunt) {
       var templateFunction =
         require("handlebars").precompile(grunt.file.read(filepath));
 
-      return namespace + "['" + filepath + "'] = " + templateFunction;
+      return namespace + "['" + fileName.substring(0, fileName.indexOf('.')) + "'] = " + templateFunction;
     }).join("\n\n") : "";
 
     return contents;
