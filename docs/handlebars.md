@@ -60,8 +60,9 @@ options: {
 }
 ```
 
-#### Config Example
+#### Config Examples
 
+##### Simple Config
 ``` javascript
 handlebars: {
   compile: {
@@ -75,3 +76,35 @@ handlebars: {
   }
 }
 ```
+
+##### Another Config example 
+Another config example where .template_partial and .template are used
+by convention and the filename ( without the file extension and no path) is the reference
+in the JST namespace
+
+    handlebars : {
+                compile : {
+                    options : {
+                        namespace : "JST",
+                        processName : function (filePath) {
+                            return grunt.helper("getSimpleFileName", filePath);
+                        },
+                        processPartialName : function (filePath) { // input:  templates/_header.handlebar
+                            return grunt.helper("getSimpleFileName", filePath);
+                        },
+                        partialRegex : /\.template_partial$/
+                    },
+                    files : {
+                        "dist/debug/handlebars_packaged.js" : 'app/templates/**/*.template*'
+                    }
+                }
+            },
+            .....
+            }
+           );
+           
+    grunt.registerHelper('getSimpleFileName', function (fullFilePath) {
+        var fileName = fullFilePath.substring(fullFilePath.lastIndexOf('/') + 1);
+        return fileName.substring(0, fileName.indexOf('.'));
+    });
+            
